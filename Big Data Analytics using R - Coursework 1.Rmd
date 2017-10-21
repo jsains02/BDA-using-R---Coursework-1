@@ -30,7 +30,7 @@ median(x)
 ```
  (iii)Mode
 ```{r}
-names(table(x))[table(x)==max(table(x))]
+names(sort(-table(x)))[1]
 ```
 
 ## Find the following measures of spread:
@@ -46,12 +46,17 @@ sd(x)
 
 ```{r}
 y = c(23, 25, 18, 45, 30, 21, 22, 19, 29, 35)
-plot(x,y, xlab="Number of brothers and sisters", ylab="Ages")
+plot(x,y, xlab="Number of brothers and sisters", ylab="Ages", main="Scatter Plot of Number of siblings vesus age")
+```
+
+(i) Covariance 
 
 ```{r}
 cov(x,y)
 ```
-Correlation
+
+
+(i) Correlation
 ```{r}
 cor(x,y)
 ```
@@ -60,19 +65,22 @@ There is a positive correlation between the two.
 (iii)
 The older generation are more likely to have more brothers and sisters. The plot clearly shows the positive correlation between the two.
 
-## Getting familiar with R
+## 2 Getting familiar with R
 
+(a) Load library
 ```{r}
 library(MASS)
 
 ```
-Number of rows and columns
+Number of rows and columns.
+
+The rows represent the cases and the columns represent the variables
 
 ```{r}
 nrow(Boston)
 ncol(Boston)
 ```
-Columns represent the following information:
+Columns also known as the variables contain 14 atributes.They are:
 ```{r}
 names(Boston)
 ```
@@ -82,32 +90,109 @@ names(Boston)
 The below scatterplot displays a positive correlation between the number of rooms per dwelling and the median value. The more rooms a property has, positivley influences the prices of a house.
 
 ```{r}
-plot(Boston$rm , Boston$medv, xlab="Average number of rooms per dwelling", ylab="median value of owner-occupied homes in $1000s" )
+plot(Boston$rm , Boston$medv, xlab="Average number of rooms per dwelling", ylab="median value of owner-occupied homes in $1000s", main = "Rooms vs Median Value")
 
 cor(Boston$rm , Boston$medv, )
 ```
 
-The below scatterplot displays a positive correlation between the property tax rate and Nitrogen oxides concentration. This idicates the higher the nitrogen oxides concentraction the more property tax paid. This leads me to believe house prices and nitrogen oxides positivly influence each other. It is known property prices are high in the innercitys, traffic and polution are also concentrated in the inner citys.
+The below scatterplot displays a positive correlation between the property tax rate and Nitrogen oxides concentration. This idicates the higher the nitrogen oxides concentraction the more property tax paid. This leads me to believe house prices and nitrogen oxides positivly influence each other. It is known property prices are higher in the innercitys, demand for houses, population, traffic and polution are also concentrated in the inner citys.
 
 ```{r}
 plot(Boston$tax , Boston$nox, xlab="Full-value property-tax rate per $10,000", ylab="Nitrogen oxides concentration (parts per 10 million)" )
 
  cor(Boston$tax , Boston$nox, )
 ```
-(c) 
+(c) Are any of the predictors associated with per capita crime rate? If so, explain the relationship
 
 ```{r}
-cor(Boston$crim,Boston)
+table(cor(Boston$crim,Boston))
 ```
 
+Lets order the results
 
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
+```{r}
+sort(cor(Boston$crim,Boston),decreasing = TRUE)
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+Lets pull out the strongest relationship
+
+```{r}
+sort(cor(Boston$crim,Boston),decreasing = TRUE)[2]
+```
+
+Index of accessibility has the strongest relationship with per capita crime rate. The easier the access to a particular area has a positive correlation on crime rate. The easier it is to access an area, the more lickly it is to have criminal activities take place there.
+
+Do
+any
+of
+the
+suburbs
+of
+Boston
+appear
+to
+have
+particularly
+high
+crime
+rates?
+Tax
+rates?
+Pupil-?-teacher
+ratios?
+Comment
+on
+the
+range
+of
+each
+predictor.
+
+```{r}
+boxplot(Boston$crim,col=c("green"), names=c("Crime Boxplot"), main="Boxplot for crime rates")
+```
+
+```{r}
+boxplot(Boston$tax,col=c("green"), names=c("Tax Boxplot"), main="Boxplot for tax rates")
+```
+
+```{r}
+boxplot(Boston$ptratio,col=c("green"), names=c("Pupil-teacher ratio by town"), main="Boxplot for Pupil-teacher ratio by town")
+```
+
+(e) How
+many
+of
+the
+suburbs
+in
+this
+data
+set
+bound
+the
+Charles
+river?
+
+```{r}
+sum(Boston$chas)
+```
+
+(f) What
+is
+the
+median
+pupil-?-teacher
+ratio
+among
+the
+towns
+in
+this
+data
+set?
+
+```{r}
+
+```
 
