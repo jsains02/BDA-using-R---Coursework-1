@@ -1,0 +1,113 @@
+---
+title: "Big Data Analytics using R - Coursework 1"
+author: "JP Sainsbury"
+date: "15 October 2017"
+output:
+  word_document: default
+  html_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## 1. (a) Suppose you ask a group of 10 students at Birkbeck College how many brothers and sisters	they have.	The number obtained are as follows:2 3 0 5 2 1 1 0 3 3 Find the following measures of central	tendency:	 (i) the mean,	(ii) the median	and	(iii) the	mode. 
+
+Sample
+```{r sample mean}
+n = 10
+x = c(2, 3, 0, 5, 2, 1, 1, 0, 3, 3)
+```
+
+(i) Mean
+```{r}
+mean(x)
+```
+ (ii)Meadian
+```{r}
+median(x)
+```
+ (iii)Mode
+```{r}
+names(table(x))[table(x)==max(table(x))]
+```
+
+## Find the following measures of spread:
+(iv) the variance
+```{r}
+var(x)
+```
+(v)
+```{r}
+sd(x)
+```
+##  (b) Suppose these 10 students	have the following age: 23 25 18 45 30 21 22 19 29 35	    (i) Find the covariance and correlation between the number of	 siblings	 and their age.	   (ii) Is there a positive or negative or no correlation between the two?	   (iii) Is there causation between the two?	   Justify your answers.	
+
+```{r}
+y = c(23, 25, 18, 45, 30, 21, 22, 19, 29, 35)
+plot(x,y, xlab="Number of brothers and sisters", ylab="Ages")
+
+```{r}
+cov(x,y)
+```
+Correlation
+```{r}
+cor(x,y)
+```
+(ii)
+There is a positive correlation between the two.
+(iii)
+The older generation are more likely to have more brothers and sisters. The plot clearly shows the positive correlation between the two.
+
+## Getting familiar with R
+
+```{r}
+library(MASS)
+
+```
+Number of rows and columns
+
+```{r}
+nrow(Boston)
+ncol(Boston)
+```
+Columns represent the following information:
+```{r}
+names(Boston)
+```
+
+## Some pairwise scatterplots 
+(b)
+The below scatterplot displays a positive correlation between the number of rooms per dwelling and the median value. The more rooms a property has, positivley influences the prices of a house.
+
+```{r}
+plot(Boston$rm , Boston$medv, xlab="Average number of rooms per dwelling", ylab="median value of owner-occupied homes in $1000s" )
+
+cor(Boston$rm , Boston$medv, )
+```
+
+The below scatterplot displays a positive correlation between the property tax rate and Nitrogen oxides concentration. This idicates the higher the nitrogen oxides concentraction the more property tax paid. This leads me to believe house prices and nitrogen oxides positivly influence each other. It is known property prices are high in the innercitys, traffic and polution are also concentrated in the inner citys.
+
+```{r}
+plot(Boston$tax , Boston$nox, xlab="Full-value property-tax rate per $10,000", ylab="Nitrogen oxides concentration (parts per 10 million)" )
+
+ cor(Boston$tax , Boston$nox, )
+```
+(c) 
+
+```{r}
+cor(Boston$crim,Boston)
+```
+
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
