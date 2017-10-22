@@ -175,24 +175,14 @@ Charles
 river?
 
 ```{r}
+table(Boston$chas)
 sum(Boston$chas)
 ```
 
-(f) What
-is
-the
-median
-pupil-?-teacher
-ratio
-among
-the
-towns
-in
-this
-data
-set?
+(f) What is the median pupil-?-teacher ratio among the towns in this data set?
 
 ```{r}
-
+> median(Boston$ptratio[Boston$chas=="1"])
 ```
 
+(g) Which suburb of Boston has lowest median value of owner occupied homes? What are the values of the other predictors for that suburb, and how do those values compare to the overall ranges for those predictors? Comment on your findings.
