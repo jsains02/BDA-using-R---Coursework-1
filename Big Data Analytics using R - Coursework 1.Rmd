@@ -186,3 +186,26 @@ sum(Boston$chas)
 ```
 
 (g) Which suburb of Boston has lowest median value of owner occupied homes? What are the values of the other predictors for that suburb, and how do those values compare to the overall ranges for those predictors? Comment on your findings.
+
+```{r}
+#Row 399 has the lowest median value of owner occupied homes
+#399 its other metrics are:
+head(Boston[order(Boston$medv),],1)
+```
+
+
+##3. Linear Regression (2%) [Textbook 3.13 (a-?-f)] In this exercise you will create some simulated data and will fit simple linear regression models to it. Make sure to use set.seed(1) prior to starting part (a) to ensure consistent results. (a) Using the rnorm() function, create a vector, ???? , containing 100 observations drawn from a N (0, 1) distribution, i.e., a normal distribution with mean 0 and variance 1. This represents a feature, ????.
+
+```{r}
+set.seed(1)
+x = rnorm(100,0,1)
+```
+
+(b) Using the rnorm() function, create a vector, ????????????, containing 100 observations drawn from a N (0, 0. 25) distribution i.e. a normal distribution with mean 0 and variance 0. 25.
+
+```{r}
+eps = rnorm(100,0,0.5)
+```
+
+(c) Using ???? and ????????????, generate a vector ???? according to the model ???? = ???1 + 0.5???? + ??. What is the length of the vector ????? What are the values of ????! and ????! in this linear model?
+
