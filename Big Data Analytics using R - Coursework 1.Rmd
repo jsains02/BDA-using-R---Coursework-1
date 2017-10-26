@@ -3,8 +3,8 @@ title: "Big Data Analytics using R - Coursework 1"
 author: "JP Sainsbury"
 date: "15 October 2017"
 output:
-  word_document: default
   html_document: default
+  word_document: default
   pdf_document: default
 ---
 
@@ -15,7 +15,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ## 1. (a) Suppose you ask a group of 10 students at Birkbeck College how many brothers and sisters	they have.	The number obtained are as follows:2 3 0 5 2 1 1 0 3 3 Find the following measures of central	tendency:	 (i) the mean,	(ii) the median	and	(iii) the	mode. 
 
 Sample
-```{r sample mean}
+```{r}
 n = 10
 x = c(2, 3, 0, 5, 2, 1, 1, 0, 3, 3)
 ```
@@ -34,19 +34,26 @@ names(sort(-table(x)))[1]
 ```
 
 ## Find the following measures of spread:
+
 (iv) the variance
+
 ```{r}
 var(x)
 ```
-(v)
+
+(v) the standard divation
+
 ```{r}
 sd(x)
 ```
-##  (b) Suppose these 10 students	have the following age: 23 25 18 45 30 21 22 19 29 35	    (i) Find the covariance and correlation between the number of	 siblings	 and their age.	   (ii) Is there a positive or negative or no correlation between the two?	   (iii) Is there causation between the two?	   Justify your answers.	
+##  (b) Suppose these 10 students	have the following age: 23 25 18 45 30 21 22 19 29 35	    
+(i) Find the covariance and correlation between the number of	 siblings	 and their age.	   
+(ii) Is there a positive or negative or no correlation between the two?	   
+(iii) Is there causation between the two?	   Justify your answers.	
 
 ```{r}
 y = c(23, 25, 18, 45, 30, 21, 22, 19, 29, 35)
-plot(x,y, xlab="Number of brothers and sisters", ylab="Ages", main="Scatter Plot of Number of siblings vesus age")
+plot(x,y, xlab="Number of brothers and sisters", ylab="Ages", main="Test Scatter Plot of Number of siblings vesus age")
 ```
 
 (i) Covariance 
@@ -55,15 +62,14 @@ plot(x,y, xlab="Number of brothers and sisters", ylab="Ages", main="Scatter Plot
 cov(x,y)
 ```
 
-
-(i) Correlation
+& Correlation
 ```{r}
 cor(x,y)
 ```
-(ii)
-There is a positive correlation between the two.
-(iii)
-The older generation are more likely to have more brothers and sisters. The plot clearly shows the positive correlation between the two.
+
+(ii) There is a positive correlation between the two.
+
+(iii) The older generation are more likely to have more brothers and sisters. The plot clearly shows the positive correlation between the two.
 
 ## 2 Getting familiar with R
 
@@ -74,7 +80,7 @@ library(MASS)
 ```
 Number of rows and columns.
 
-The rows represent the cases and the columns represent the variables
+The rows represent the cases, the cases here are suburbs of Boston. The columns represent the variables.
 
 ```{r}
 nrow(Boston)
@@ -86,8 +92,19 @@ names(Boston)
 ```
 
 ## Some pairwise scatterplots 
+
+```{r}
+pairs(Boston)
+```
+
+
 (b)
-The below scatterplot displays a positive correlation between the number of rooms per dwelling and the median value. The more rooms a property has, positivley influences the prices of a house.
+The below scatterplot and pairs displays a positive correlation between the number of rooms per dwelling and the median value. The more rooms a property has positivley influences the value of the house. The more rooms the dwelling has the higher the value of the house.
+
+```{r}
+pairs(Boston[c(6,14)])
+```
+
 
 ```{r}
 plot(Boston$rm , Boston$medv, xlab="Average number of rooms per dwelling", ylab="median value of owner-occupied homes in $1000s", main = "Rooms vs Median Value")
@@ -95,7 +112,12 @@ plot(Boston$rm , Boston$medv, xlab="Average number of rooms per dwelling", ylab=
 cor(Boston$rm , Boston$medv, )
 ```
 
-The below scatterplot displays a positive correlation between the property tax rate and Nitrogen oxides concentration. This idicates the higher the nitrogen oxides concentraction the more property tax paid. This leads me to believe house prices and nitrogen oxides positivly influence each other. It is known property prices are higher in the innercitys, demand for houses, population, traffic and polution are also concentrated in the inner citys.
+The below scatterplot and pairs displays a positive correlation between the property tax rate and Nitrogen oxides concentration. This idicates the higher the nitrogen oxides concentraction the more property tax paid. This leads me to believe house prices and nitrogen oxides positivly influence each other. It is known property prices are higher in the innercitys, demand for houses, population, traffic and polution are also concentrated in the inner citys. The scotterplot below supports this hypothesis.
+
+```{r}
+pairs(Boston[c(5,10)])lead
+```
+
 
 ```{r}
 plot(Boston$tax , Boston$nox, xlab="Full-value property-tax rate per $10,000", ylab="Nitrogen oxides concentration (parts per 10 million)" )
@@ -105,7 +127,7 @@ plot(Boston$tax , Boston$nox, xlab="Full-value property-tax rate per $10,000", y
 (c) Are any of the predictors associated with per capita crime rate? If so, explain the relationship
 
 ```{r}
-table(cor(Boston$crim,Boston))
+cor(Boston$crim,Boston)
 ```
 
 Lets order the results
@@ -120,59 +142,41 @@ Lets pull out the strongest relationship
 sort(cor(Boston$crim,Boston),decreasing = TRUE)[2]
 ```
 
-Index of accessibility has the strongest relationship with per capita crime rate. The easier the access to a particular area has a positive correlation on crime rate. The easier it is to access an area, the more lickly it is to have criminal activities take place there.
+Index of accessibility has the strongest relationship with per capita crime rate. The easier the access to a particular area has a positive correlation on crime rate. The easier it is to access an area, the more likely it is to have criminal activities take place there. 
 
-Do
-any
-of
-the
-suburbs
-of
-Boston
-appear
-to
-have
-particularly
-high
-crime
-rates?
-Tax
-rates?
-Pupil-?-teacher
-ratios?
-Comment
-on
-the
-range
-of
-each
+##Do any of the suburbs of Boston appear to have particularly high crime rates? Tax rates? Pupil-?-teacher ratios? Comment on the range of each
 predictor.
 
+High crime rate areas
+
+The box plot displays many outliers which have high crime rates. I have used the head function which displays an overview of the highest and lowest crime rates.  
+
 ```{r}
+library(dplyr)
+
+head(arrange(Boston,-crim))
+
+head(arrange(Boston,crim))
+
 boxplot(Boston$crim,col=c("green"), names=c("Crime Boxplot"), main="Boxplot for crime rates")
 ```
 
+The tax rate has no particular outlier meaning no Boston suburb has a higher rate compared to the rest of the data.
+
 ```{r}
+head(arrange(Boston,-tax))
+head(arrange(Boston,tax))
 boxplot(Boston$tax,col=c("green"), names=c("Tax Boxplot"), main="Boxplot for tax rates")
 ```
 
 ```{r}
+head(arrange(Boston,ptratio))
+head(arrange(Boston,-ptratio))
+
 boxplot(Boston$ptratio,col=c("green"), names=c("Pupil-teacher ratio by town"), main="Boxplot for Pupil-teacher ratio by town")
 ```
 
-(e) How
-many
-of
-the
-suburbs
-in
-this
-data
-set
-bound
-the
-Charles
-river?
+(e) How many of the suburbs in this data set bound the Charles river?
 
 ```{r}
 table(Boston$chas)
@@ -182,7 +186,7 @@ sum(Boston$chas)
 (f) What is the median pupil-?-teacher ratio among the towns in this data set?
 
 ```{r}
-> median(Boston$ptratio[Boston$chas=="1"])
+median(Boston$ptratio[Boston$chas=="1"])
 ```
 
 (g) Which suburb of Boston has lowest median value of owner occupied homes? What are the values of the other predictors for that suburb, and how do those values compare to the overall ranges for those predictors? Comment on your findings.
@@ -190,7 +194,20 @@ sum(Boston$chas)
 ```{r}
 #Row 399 has the lowest median value of owner occupied homes
 #399 its other metrics are:
-head(Boston[order(Boston$medv),],1)
+head(Boston[order(Boston$medv),],2)
+```
+(h)
+
+```{r}
+filter(Boston)
+
+morethansevenrooms <- Boston$rm > 7
+sum(morethansevenrooms)
+
+morethaneightrooms <- Boston$rm > 8
+sum(morethaneightrooms)
+
+subset(Boston, rm>8)
 ```
 
 
@@ -201,11 +218,35 @@ set.seed(1)
 x = rnorm(100,0,1)
 ```
 
-(b) Using the rnorm() function, create a vector, ????????????, containing 100 observations drawn from a N (0, 0. 25) distribution i.e. a normal distribution with mean 0 and variance 0. 25.
+(b) Using the rnorm() function, create a vector, esp, containing 100 observations drawn from a N (0, 0. 25) distribution i.e. a normal distribution with mean 0 and variance 0. 25.
 
 ```{r}
 eps = rnorm(100,0,0.5)
 ```
 
-(c) Using ???? and ????????????, generate a vector ???? according to the model ???? = ???1 + 0.5???? + ??. What is the length of the vector ????? What are the values of ????! and ????! in this linear model?
+(c) Using x and eps, generate a vector y according to the model Y = -1 + 0.5x + e. What is the length of the vector y What are the values of Beta 0! and Beta1! in this linear model?
 
+MAking the prediction of Y on the basis X=x
+
+```{r}
+y= -1 + (0.5 * x) + eps
+Y=y
+```
+
+Making the prediction of y on the basis Y=y
+
+```{r}
+length(y)
+```
+
+Beta zero is equal to the intercept -1.
+Beta 1 is equal to the slope 0.5.
+Yes this is a linear model.
+
+(d) Create a scatterplot displaying the relationship between ???? and ????. Comment on what you observe.
+
+```{r}
+plot(x,y,main = "Scatter plot of x and y", xlab = "x", ylab= "y")
+```
+
+There is a positive corelation between x and y.
